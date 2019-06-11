@@ -10,8 +10,8 @@ class ItemsTransformer extends Fractal\TransformerAbstract
 	{
 	    return [
 	        'id'      => (int) $item->id,
-	        'product_name'   => $item->item_name,
-	        'product_description'    =>  $item->item_description,
+	        'item_name'   => $item->item_name,
+	        'item_description'    =>  $item->item_description,
 	        'created_at'    =>  $item->created_at->format('d-m-Y'),
 	        'updated_at'    =>  $item->updated_at->format('d-m-Y'),
             'links'   => [

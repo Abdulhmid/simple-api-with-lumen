@@ -48,8 +48,8 @@ class ItemsController extends Controller
 
         //validate request parameters
         $this->validate($request, [
-            'product_name' => 'bail|required|max:255',
-            'product_description' => 'bail|required',
+            'item_name' => 'bail|required|max:255',
+            'item_description' => 'bail|required',
         ]);
 
         $items = Items::create($request->all());
@@ -58,17 +58,16 @@ class ItemsController extends Controller
     }
 
     public function update($id, Request $request){
-
         //validate request parameters
         $this->validate($request, [
-            'product_name' => 'max:255',
+            'item_name' => 'max:255',
         ]);
 
         //Return error 404 response if items was not found
         if(!Items::find($id)) return $this->errorResponse('items not found!', 404);
 
         $items = Items::find($id)->update($request->all());
-
+     
         if($items){
             //return updated data
             $resource = new Item(Items::find($id), new ItemsTransformer); 
