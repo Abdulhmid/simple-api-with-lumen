@@ -21,3 +21,6 @@ $router->get('items/{id}', 'ItemsController@show');
 $router->put('items/{id}', 'ItemsController@update');
 $router->post('items', 'ItemsController@store');
 $router->delete('items/{id}', 'ItemsController@destroy');
+
+//transaction route
+$router->post('transaction', 'TransactionController@store');

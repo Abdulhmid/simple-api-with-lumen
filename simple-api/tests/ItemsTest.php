@@ -1,5 +1,7 @@
 <?php
 
+use App\Items;
+
 class ItemsTest extends TestCase
 {
     /**
@@ -34,26 +36,6 @@ class ItemsTest extends TestCase
     }
 
     /**
-     * /items/id [GET]
-     */
-    public function testShouldReturnItems(){
-        $this->get("items/2", []);
-        $this->seeStatusCode(200);
-        $this->seeJsonStructure(
-            ['data' =>
-                [
-                    'item_name',
-                    'item_description',
-                    'created_at',
-                    'updated_at',
-                    'links'
-                ]
-            ]    
-        );
-        
-    }
-
-    /**
      * /items [POST]
      */
     public function testShouldCreateItems(){
@@ -78,18 +60,39 @@ class ItemsTest extends TestCase
         );
         
     }
+
+    /**
+     * /items/id [GET]
+     */
+    public function testShouldReturnItems(){
+        $item = Items::first();
+        $this->get("items/".$item->id, []);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(
+            ['data' =>
+                [
+                    'item_name',
+                    'item_description',
+                    'created_at',
+                    'updated_at',
+                    'links'
+                ]
+            ]    
+        );
+        
+    }
     
     /**
      * /items/id [PUT]
      */
     public function testShouldUpdateItems(){
-
+        $item = Items::first();
         $parameters = [
             'item_name' => 'Infinix Hot Note',
             'item_description' => 'Champagne Gold, 13M AF + 8M FF 4G Smartphone',
         ];
 
-        $this->put("items/21", $parameters, []);
+        $this->put("items/".$item->id, $parameters, []);
         $this->seeStatusCode(200);
         $this->seeJsonStructure(
             ['data' =>
@@ -108,8 +111,8 @@ class ItemsTest extends TestCase
      * /items/id [DELETE]
      */
     public function testShouldDeleteItems(){
-        
-        $this->delete("items/3", [], []);
+        $item = Items::first();
+        $this->delete("items/".$item->id, [], []);
         $this->seeStatusCode(410);
         $this->seeJsonStructure([
                 'status',
